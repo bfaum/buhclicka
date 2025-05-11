@@ -1,9 +1,9 @@
 import { useRef, useEffect } from 'react';
-import { Tile as TileType, getTileKey } from '../types/game';
+import { type Tile as TileInterface, getTileKey } from '../types/game';
 import Tile from './Tile';
 
 interface WorldGridProps {
-  tiles: Record<string, TileType>;
+  tiles: Record<string, TileInterface>;
   viewRange: number;
   position: { x: number; y: number };
   onTileClick: (x: number, y: number) => void;
@@ -114,3 +114,6 @@ const WorldGrid: React.FC<WorldGridProps> = ({
       </div>
     </div>
   );
+}
+
+export default WorldGrid;

@@ -1,7 +1,7 @@
-import { TileType, Tile } from '../types/game';
+import { TileType, type Tile as TileInterface } from '../types/game';
 
 interface MinimapProps {
-  tiles: Record<string, Tile>;
+  tiles: Record<string, TileInterface>;
   position: { x: number; y: number };
   viewRange: number;
 }
@@ -10,7 +10,7 @@ const Minimap: React.FC<MinimapProps> = ({ tiles, position, viewRange }) => {
   const minimapSize = viewRange * 2 + 1;
   const minimapTileSize = 4; // Small pixel size for minimap tiles
   
-  const getTileColor = (tile: Tile | undefined): string => {
+  const getTileColor = (tile: TileInterface | undefined): string => {
     if (!tile || tile.depleted) {
       return 'bg-gray-500';
     }

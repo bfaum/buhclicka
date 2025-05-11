@@ -1,4 +1,4 @@
-import { Resources, ResourceType } from '../types/game';
+import { type Resources, ResourceType } from '../types/game';
 
 interface ResourceDisplayProps {
   resources: Resources;

@@ -1,7 +1,7 @@
-import { Tile as TileType } from '../types/game';
+import { type Tile as TileInterface, TileType } from '../types/game';
 
 interface TileProps {
-  tile: TileType;
+  tile: TileInterface;
   onClick: () => void;
 }
 
@@ -13,13 +13,13 @@ const Tile: React.FC<TileProps> = ({ tile, onClick }) => {
     }
 
     switch (tile.type) {
-      case 'forest':
+      case TileType.FOREST:
         return 'bg-green-600 hover:bg-green-700';
-      case 'rock':
+      case TileType.ROCK:
         return 'bg-gray-600 hover:bg-gray-700';
-      case 'energy':
+      case TileType.ENERGY:
         return 'bg-blue-500 hover:bg-blue-600';
-      case 'empty':
+      case TileType.EMPTY:
       default:
         return 'bg-gray-200 hover:bg-gray-300';
     }
@@ -31,13 +31,13 @@ const Tile: React.FC<TileProps> = ({ tile, onClick }) => {
     }
 
     switch (tile.type) {
-      case 'forest':
+      case TileType.FOREST:
         return '🌲';
-      case 'rock':
+      case TileType.ROCK:
         return '🪨';
-      case 'energy':
+      case TileType.ENERGY:
         return '⚡';
-      case 'empty':
+      case TileType.EMPTY:
       default:
         return '';
     }

@@ -1,4 +1,4 @@
-import { Resources, Upgrade as UpgradeType, UpgradeType as UpgradeTypes, ResourceType } from '../types/game';
+import { type Resources, type Upgrade as UpgradeType, UpgradeType as UpgradeTypes, ResourceType } from '../types/game';
 
 interface UpgradePanelProps {
   upgrades: Record<UpgradeTypes, UpgradeType>;

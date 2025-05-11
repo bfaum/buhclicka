@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { GameState, UpgradeType } from '../types/game';
+import { type GameState, UpgradeType } from '../types/game';
 import WorldGrid from './WorldGrid';
 import ResourceDisplay from './ResourceDisplay';
 import UpgradePanel from './UpgradePanel';
