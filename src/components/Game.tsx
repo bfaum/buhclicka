@@ -21,6 +21,8 @@ const Game: React.FC = () => {
     const savedState = loadGameState();
     return savedState || initializeGameState();
   });
+  
+  const [showPanel, setShowPanel] = useState(false);
 
   // Game tick update
   useEffect(() => {
@@ -82,42 +84,43 @@ const Game: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto p-4">
-        <header className="mb-6 text-center">
-          <h1 className="text-4xl font-bold mb-2">Resource Clicker</h1>
-          <p className="text-gray-300">Click to gather resources and upgrade your kingdom!</p>
-        </header>
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      {/* Compact header */}
+      <header className="bg-gray-800 py-2 px-4 flex justify-between items-center shadow-lg z-10">
+        <div>
+          <h1 className="text-2xl font-bold">Resource Clicker</h1>
+        </div>
+        <ResourceDisplay resources={gameState.resources} />
+        <button 
+          className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded font-bold"
+          onClick={() => setShowPanel(!showPanel)}
+        >
+          {showPanel ? "Hide Menu" : "Menu"}
+        </button>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <WorldGrid
-              tiles={gameState.tiles}
-              viewRange={gameState.viewRange}
-              position={gameState.position}
-              onTileClick={handleTileClick}
-              onMove={handleMove}
-            />
-          </div>
-          
-          <div className="space-y-6">
-            <ResourceDisplay resources={gameState.resources} />
-            
+      {/* Main content */}
+      <div className="flex flex-grow">
+        {/* World Grid - now takes up the full screen */}
+        <div className="flex-grow">
+          <WorldGrid
+            tiles={gameState.tiles}
+            viewRange={gameState.viewRange}
+            position={gameState.position}
+            onTileClick={handleTileClick}
+            onMove={handleMove}
+          />
+        </div>
+        
+        {/* Side panel that can be toggled */}
+        {showPanel && (
+          <div className="w-80 bg-gray-800 p-4 space-y-4 overflow-y-auto shadow-xl">
             <div className="flex gap-4">
               <Minimap 
                 tiles={gameState.tiles}
                 position={gameState.position}
                 viewRange={gameState.viewRange}
               />
-              
-              <div className="bg-gray-800 p-3 rounded-lg flex-1 flex flex-col justify-between">
-                <h2 className="text-white text-xl font-bold">Controls</h2>
-                <div className="text-sm text-gray-300">
-                  <p>• Click on tiles to harvest resources</p>
-                  <p>• Right-click and drag to move around</p>
-                  <p>• Buy upgrades to progress faster</p>
-                </div>
-              </div>
             </div>
             
             <GameControls onReset={handleReset} />
@@ -129,13 +132,13 @@ const Game: React.FC = () => {
               onPurchase={handleUpgradePurchase}
             />
           </div>
-        </div>
+        )}
       </div>
       
       <GameInfo />
       
-      <footer className="text-center text-gray-500 mt-8 text-sm">
-        Resource Clicker v1.0.0 | Created with React & Tailwind CSS
+      <footer className="bg-gray-800 py-1 text-center text-gray-500 text-xs">
+        Resource Clicker v1.1.0 | Created with React & Tailwind CSS
       </footer>
     </div>
   );

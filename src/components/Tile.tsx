@@ -45,7 +45,7 @@ const Tile: React.FC<TileProps> = ({ tile, onClick }) => {
 
   return (
     <div
-      className={`w-12 h-12 ${getTileStyle()} flex items-center justify-center cursor-pointer rounded-sm text-lg transition-colors duration-200`}
+      className={`w-full h-full aspect-square ${getTileStyle()} flex items-center justify-center cursor-pointer rounded-sm text-lg transition-colors duration-200`}
       onClick={onClick}
     >
       {getTileSymbol()}

@@ -62,6 +62,34 @@ export const initializeGameState = (): GameState => {
   return gameState;
 };
 
+// Xorshift128+ algorithm - much more random than previous implementation
+// Based on https://en.wikipedia.org/wiki/Xorshift
+class RandomGenerator {
+  private state0: number;
+  private state1: number;
+
+  constructor(seed: number) {
+    this.state0 = seed ? seed : Date.now();
+    this.state1 = this.state0 ^ 0x6D2B79F5;
+  }
+
+  // Get next number between 0 and 1
+  next(): number {
+    let s1 = this.state0;
+    let s0 = this.state1;
+    
+    this.state0 = s0;
+    s1 ^= s1 << 23;
+    s1 ^= s1 >> 17;
+    s1 ^= s0;
+    s1 ^= s0 >> 26;
+    this.state1 = s1;
+    
+    // Convert to a fraction between 0 and 1
+    return (this.state0 + this.state1) / 4294967296;
+  }
+}
+
 // Generate tiles around the current position
 const generateTiles = (gameState: GameState): void => {
   const { position, viewRange } = gameState;
@@ -77,17 +105,27 @@ const generateTiles = (gameState: GameState): void => {
   }
 };
 
-// Generate a single tile based on position
+// Generate a single tile based on position with improved randomness
 const generateTile = (x: number, y: number): Tile => {
-  // Use a simple pseudo-random function based on coordinates
-  const hash = Math.abs((x * 12345 + y * 54321) % 1000) / 1000;
+  // Create a random generator seeded by coordinates
+  const seed = Math.abs(x * 73856093 ^ y * 19349669);
+  const rng = new RandomGenerator(seed);
+  const value = rng.next();
+  
+  // Biome influence - create patterns in the world
+  const biomeValue = Math.sin(x / 20) * Math.cos(y / 20) * 0.2 + 0.3;
+  
+  // Mix the pure random with the biome influence
+  const mixed = (value * 0.7) + (biomeValue * 0.3);
   
   let type: TileType;
-  if (hash < 0.4) {
+  
+  // Determine tile type based on randomness
+  if (mixed < 0.38) {
     type = TileType.FOREST;
-  } else if (hash < 0.7) {
+  } else if (mixed < 0.68) {
     type = TileType.ROCK;
-  } else if (hash < 0.85) {
+  } else if (mixed < 0.86) {
     type = TileType.ENERGY;
   } else {
     type = TileType.EMPTY;

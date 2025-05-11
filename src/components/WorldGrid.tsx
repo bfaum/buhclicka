@@ -115,16 +115,18 @@ const WorldGrid: React.FC<WorldGridProps> = ({
   const gridSize = viewRange * 2 + 1;
 
   return (
-    <div className="relative overflow-hidden bg-gray-900 rounded-lg p-2">
-      <div className="flex justify-between mb-2 text-white">
+    <div className="h-full flex flex-col bg-gray-900 relative">
+      <div className="absolute top-2 left-2 right-2 flex justify-between items-center z-10 bg-gray-800 bg-opacity-80 rounded px-2 py-1 text-sm">
         <div>Position: ({position.x}, {position.y})</div>
-        <div>Click and drag to move map | Use arrow keys for precise movement</div>
+        <div className="hidden md:block">Click and drag to move map | Use arrow keys for precise movement</div>
       </div>
+      
       <div 
         ref={gridRef}
-        className="grid gap-1 cursor-grab active:cursor-grabbing"
+        className="grid gap-1 flex-grow cursor-grab active:cursor-grabbing p-4 pt-10 overflow-hidden"
         style={{ 
           gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${gridSize}, minmax(0, 1fr))`,
         }}
       >
         {visibleTiles.map((tile) => (
@@ -140,33 +142,33 @@ const WorldGrid: React.FC<WorldGridProps> = ({
       <div className="absolute bottom-4 right-4 grid grid-cols-3 gap-1">
         <div></div>
         <button 
-          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded" 
+          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded opacity-70 hover:opacity-100" 
           onClick={() => onMove(0, -1)}
         >
           ↑
         </button>
         <div></div>
         <button 
-          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded" 
+          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded opacity-70 hover:opacity-100" 
           onClick={() => onMove(-1, 0)}
         >
           ←
         </button>
         <button 
-          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded" 
+          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded opacity-70 hover:opacity-100" 
           onClick={() => onMove(0, 0)}
         >
           ●
         </button>
         <button 
-          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded" 
+          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded opacity-70 hover:opacity-100" 
           onClick={() => onMove(1, 0)}
         >
           →
         </button>
         <div></div>
         <button 
-          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded" 
+          className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded opacity-70 hover:opacity-100" 
           onClick={() => onMove(0, 1)}
         >
           ↓
